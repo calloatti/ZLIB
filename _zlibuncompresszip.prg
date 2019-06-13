@@ -1,7 +1,8 @@
-*!* _zlibuncompressgzip
+*!* _zlibuncompresszip
 
-*!* UNCOMPRESSES GZIP STRINGS LIKE THE ONES SENT BY WEB SERVERS 
-*!* WHEN THE HEADER Accept-Encoding: gzip, deflate IS SENT
+*!* pstring: string to uncompress
+*!* pulen: len of uncompressed data
+*!* pcrc32: crc32 of uncompressed data
 
 *!*	typedef struct z_stream_s {
 *!*	    z_const Bytef *next_in;     /* next input byte */
@@ -29,10 +30,10 @@
 
 #Define HEAP_ZERO_MEMORY	8
 
-Lparameters pstring
+Lparameters pstring, pulen, pcrc32
 
-Local avail_in, avail_out, heap, next_in, next_out, outstring, result, stream_size, strm, total_out
-Local windowsbits, zlibversion
+Local avail_in, avail_out, crc32, heap, next_in, next_out, outstring, result, stream_size, strm
+Local total_out, windowsbits, zlibversion
 
 If Empty(m.pstring) Then
 
@@ -49,7 +50,7 @@ m.next_in = _apiHeapAlloc(m.heap, HEAP_ZERO_MEMORY, m.avail_in)	&& next input by
 Sys(2600, m.next_in, m.avail_in, m.pstring) && copy pstring to m.next_in
 
 *!* remaining free space at next_out
-m.avail_out	= CToBin(Right(m.pstring, 4), '4rs') && len of uncompressed string is stored in last 4 bytes of pstring
+m.avail_out	= m.pulen * 2
 
 *!*  next output byte will go here
 
@@ -76,15 +77,18 @@ m.strm = _apiHeapAlloc(m.heap, HEAP_ZERO_MEMORY, m.stream_size)
 *!*	48 adler
 *!*	52 reserved
 
-Sys(2600, m.strm, 4, BinToC(m.next_in, '4rs'))				&& next_in
-Sys(2600, m.strm + 4, 4, BinToC(m.avail_in, '4rs'))			&& avail_in
+Sys(2600, m.strm, 4, BinToC(m.next_in, '4rs'))		&& next_in
+Sys(2600, m.strm + 4, 4, BinToC(m.avail_in, '4rs'))		&& avail_in
 Sys(2600, m.strm + 12, 4, BinToC(m.next_out, '4rs'))		&& next_out
 Sys(2600, m.strm + 16, 4, BinToC(m.avail_out, '4rs'))		&& avail_out
 
-*!* windowBits can also be greater than MAX_WBITS for optional gzip decoding. Add 32 to windowBits 
-*!* to enable zlib and gzip decoding with automatic header detection
+*!* windowBits can also be -8..-15 for raw inflate. In this case, -windowBits 
+*!* determines the window size.  inflate() will then process raw deflate data,   
+*!* not looking for a zlib or gzip header, not generating a check value, and not  
+*!* looking for any check values for comparison at the end of the stream.  
+*!* This is for use with other formats that use the deflate compressed data format such as zip.
 
-m.windowsbits = MAX_WBITS + 32
+m.windowsbits = MAX_WBITS * (-1)
 
 m.zlibversion = _zlibapizlibversion()
 
@@ -92,7 +96,7 @@ m.result = _zlibapiinflateinit2(m.strm, m.windowsbits, m.zlibversion, m.stream_s
 
 If m.result # Z_OK Then
 
-	Error '_zlibapiinflateinit2:' + Transform(m.result)
+	Error 'ERROR _ZLIBAPIINFLATEINIT2:' + Transform(m.result)
 
 Endif
 
@@ -100,7 +104,7 @@ m.result = _zlibapiinflate(m.strm, Z_FINISH)
 
 If m.result # Z_STREAM_END Then
 
-	Error '_zlibapiinflate:' + Transform(m.result)
+	Error 'ERROR _ZLIBAPIINFLATE:' + Transform(m.result)
 
 Endif
 
@@ -108,7 +112,7 @@ m.result = _zlibapiinflateend(m.strm)
 
 If m.result # Z_OK Then
 
-	Error '_zlibapiinflateend:' + Transform(m.result)
+	Error 'ERROR _ZLIBAPIINFLATEEND:' + Transform(m.result)
 
 Endif
 
@@ -121,5 +125,17 @@ _apiHeapFree(m.heap, 0, m.strm)
 _apiHeapFree(m.heap, 0, m.next_out)
 
 _apiHeapFree(m.heap, 0, m.next_in)
+
+If Vartype(m.pcrc32) = 'N'
+
+	m.crc32 = _zlibcrc32(m.outstring)
+
+	If m.crc32 # m.pcrc32
+
+		Error 'ERROR CALCULATED CRC32 DOES NOT MATCH PROVIDED CRC32'
+
+	Endif
+
+Endif
 
 Return m.outstring

@@ -2,7 +2,7 @@
 
 #Include _zlib1.h
 
-Lparameters csource
+Lparameters csource, ndestlen
 
 Local cdest, ndestlen, nresult, nsourcelen
 
@@ -14,14 +14,18 @@ If m.nsourcelen = 0 Then
 
 Else
 
-	m.ndestlen = m.nsourcelen * 2
+	If Vartype(m.ndestlen) # 'N' Then
+
+		m.ndestlen = m.nsourcelen * 2
+
+	Endif
 
 	m.cdest = Space(m.ndestlen)
 
 	m.nresult = _zlibapiuncompress(@m.cdest, @m.ndestlen, m.csource, m.nsourcelen)
 
 	Do While m.nresult = Z_BUF_ERROR
-	
+
 		m.ndestlen = m.ndestlen * 2
 
 		m.cdest = Space(m.ndestlen)

@@ -6,12 +6,20 @@
 
 Lparameters pstring
 
-Local avail_in, avail_out, memlevel, next_in, next_out, nlevel, nmethod, outstring, result
-Local stream_size, strm, windowsbits, zlibversion
+Local avail_in, avail_out, heap, memlevel, next_in, next_out, nlevel, nmethod, outstring, result
+Local strategy, stream_size, strm, total_out, windowsbits, zlibversion
+
+If Empty(m.pstring) Then
+
+	Return ''
+
+Endif
+
+m.heap = _apigetprocessheap()
 
 m.stream_size = 56
 
-m.strm = _apiHeapAlloc(_apigetprocessheap(), HEAP_ZERO_MEMORY, m.stream_size)
+m.strm = _apiHeapAlloc(m.heap, HEAP_ZERO_MEMORY, m.stream_size)
 
 *!*	00 next_in
 *!*	04 avail_in
@@ -30,16 +38,16 @@ m.strm = _apiHeapAlloc(_apigetprocessheap(), HEAP_ZERO_MEMORY, m.stream_size)
 
 m.avail_in = Len(m.pstring)	&& number of bytes available at next_in
 
-m.next_in = _apiHeapAlloc(_apigetprocessheap(), HEAP_ZERO_MEMORY, m.avail_in)	&& next input byte
+m.next_in = _apiHeapAlloc(m.heap, HEAP_ZERO_MEMORY, m.avail_in)	&& next input byte
 
 Sys(2600, m.next_in, m.avail_in, m.pstring) && copy pstring to m.next_in
 
 Sys(2600, m.strm, 4, BinToC(m.next_in, '4rs'))		&& next_in
 Sys(2600, m.strm + 4, 4, BinToC(m.avail_in, '4rs'))		&& avail_in
 
-m.avail_out = _zlibapideflatebound(m.strm, m.avail_in)
+m.avail_out = _zlibapideflatebound(m.strm, m.avail_in) + 128		&& add 128 bytes just in case, for short strings
 
-m.next_out = _apiHeapAlloc(_apigetprocessheap(), HEAP_ZERO_MEMORY, m.avail_out)
+m.next_out = _apiHeapAlloc(m.heap, HEAP_ZERO_MEMORY, m.avail_out)
 
 Sys(2600, m.strm + 12, 4, BinToC(m.next_out, '4rs'))		&& next_out
 Sys(2600, m.strm + 16, 4, BinToC(m.avail_out, '4rs'))		&& avail_out
@@ -59,7 +67,7 @@ m.strategy = Z_DEFAULT_STRATEGY
 
 m.zlibversion = _zlibapizlibversion()
 
-m.result = _zlibapideflateinit2(m.strm, m.nlevel, m.nmethod, m.windowsbits, m.memlevel, strategy, m.zlibversion, m.stream_size)
+m.result = _zlibapideflateinit2(m.strm, m.nlevel, m.nmethod, m.windowsbits, m.memlevel, m.strategy, m.zlibversion, m.stream_size)
 
 If m.result # Z_OK Then
 
@@ -83,14 +91,14 @@ If m.result # Z_OK Then
 
 Endif
 
-m.total_out = CTOBIN(SYS(2600, m.strm + 20, 4), '4rs')
+m.total_out = CToBin(Sys(2600, m.strm + 20, 4), '4rs')
 
 m.outstring = Sys(2600, m.next_out, m.total_out)
 
-_apiHeapFree(_apigetprocessheap(), 0, m.strm)
+_apiHeapFree(m.heap, 0, m.strm)
 
-_apiHeapFree(_apigetprocessheap(), 0, m.next_out)
+_apiHeapFree(m.heap, 0, m.next_out)
 
-_apiHeapFree(_apigetprocessheap(), 0, m.next_in)
+_apiHeapFree(m.heap, 0, m.next_in)
 
 Return m.outstring
