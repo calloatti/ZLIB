@@ -2,24 +2,24 @@
 
 #Include _zlib1.h
 
-#Define HEAP_ZERO_MEMORY	8
+#define HEAP_ZERO_MEMORY	8
 
-Lparameters pstring
+lparameters pstring
 
-Local avail_in, avail_out, heap, memlevel, next_in, next_out, nlevel, nmethod, outstring, result
-Local strategy, stream_size, strm, total_out, windowsbits, zlibversion
+local avail_in, avail_out, heap, memlevel, next_in, next_out, nlevel, nmethod, outstring, result
+local strategy, stream_size, strm, total_out, windowsbits, zlibversion
 
-If Empty(m.pstring) Then
+if empty(m.pstring) then
 
-	Return ''
+	return ''
 
-Endif
+endif
 
-m.heap = _apigetprocessheap()
+m.heap = _zapigetprocessheap()
 
 m.stream_size = 56
 
-m.strm = _apiHeapAlloc(m.heap, HEAP_ZERO_MEMORY, m.stream_size)
+m.strm = _zapiheapalloc(m.heap, HEAP_ZERO_MEMORY, m.stream_size)
 
 *!*	00 next_in
 *!*	04 avail_in
@@ -36,21 +36,21 @@ m.strm = _apiHeapAlloc(m.heap, HEAP_ZERO_MEMORY, m.stream_size)
 *!*	48 adler
 *!*	52 reserved
 
-m.avail_in = Len(m.pstring)	&& number of bytes available at next_in
+m.avail_in = len(m.pstring)	&& number of bytes available at next_in
 
-m.next_in = _apiHeapAlloc(m.heap, HEAP_ZERO_MEMORY, m.avail_in)	&& next input byte
+m.next_in = _zapiheapalloc(m.heap, HEAP_ZERO_MEMORY, m.avail_in)	&& next input byte
 
-Sys(2600, m.next_in, m.avail_in, m.pstring) && copy pstring to m.next_in
+sys(2600, m.next_in, m.avail_in, m.pstring) && copy pstring to m.next_in
 
-Sys(2600, m.strm, 4, BinToC(m.next_in, '4rs'))		&& next_in
-Sys(2600, m.strm + 4, 4, BinToC(m.avail_in, '4rs'))		&& avail_in
+sys(2600, m.strm, 4, bintoc(m.next_in, '4rs'))		&& next_in
+sys(2600, m.strm + 4, 4, bintoc(m.avail_in, '4rs'))		&& avail_in
 
 m.avail_out = _zlibapideflatebound(m.strm, m.avail_in) + 128		&& add 128 bytes just in case, for short strings
 
-m.next_out = _apiHeapAlloc(m.heap, HEAP_ZERO_MEMORY, m.avail_out)
+m.next_out = _zapiheapalloc(m.heap, HEAP_ZERO_MEMORY, m.avail_out)
 
-Sys(2600, m.strm + 12, 4, BinToC(m.next_out, '4rs'))		&& next_out
-Sys(2600, m.strm + 16, 4, BinToC(m.avail_out, '4rs'))		&& avail_out
+sys(2600, m.strm + 12, 4, bintoc(m.next_out, '4rs'))		&& next_out
+sys(2600, m.strm + 16, 4, bintoc(m.avail_out, '4rs'))		&& avail_out
 
 m.nlevel = Z_DEFAULT_COMPRESSION
 
@@ -69,36 +69,36 @@ m.zlibversion = _zlibapizlibversion()
 
 m.result = _zlibapideflateinit2(m.strm, m.nlevel, m.nmethod, m.windowsbits, m.memlevel, m.strategy, m.zlibversion, m.stream_size)
 
-If m.result # Z_OK Then
+if m.result # Z_OK then
 
-	Error '_zlibapideflateinit2:' + Transform(m.result)
+	error '_zlibapideflateinit2:' + transform(m.result)
 
-Endif
+endif
 
 m.result = _zlibapideflate(m.strm, Z_FINISH)
 
-If m.result # Z_STREAM_END Then
+if m.result # Z_STREAM_END then
 
-	Error '_zlibapdeflate:' + Transform(m.result)
+	error '_zlibapdeflate:' + transform(m.result)
 
-Endif
+endif
 
 m.result = _zlibapideflateend(m.strm)
 
-If m.result # Z_OK Then
+if m.result # Z_OK then
 
-	Error '_zlibapideflateend:' + Transform(m.result)
+	error '_zlibapideflateend:' + transform(m.result)
 
-Endif
+endif
 
-m.total_out = CToBin(Sys(2600, m.strm + 20, 4), '4rs')
+m.total_out = ctobin(sys(2600, m.strm + 20, 4), '4rs')
 
-m.outstring = Sys(2600, m.next_out, m.total_out)
+m.outstring = sys(2600, m.next_out, m.total_out)
 
-_apiHeapFree(m.heap, 0, m.strm)
+_zapiheapfree(m.heap, 0, m.strm)
 
-_apiHeapFree(m.heap, 0, m.next_out)
+_zapiheapfree(m.heap, 0, m.next_out)
 
-_apiHeapFree(m.heap, 0, m.next_in)
+_zapiheapfree(m.heap, 0, m.next_in)
 
-Return m.outstring
+return m.outstring

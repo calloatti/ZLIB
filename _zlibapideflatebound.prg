@@ -11,10 +11,10 @@
 *!*	be larger than the value returned by deflateBound() if flush options other
 *!*	than Z_FINISH or Z_NO_FLUSH are used.
 
-Lparameters strm, sourcelen
+lparameters strm, sourcelen
 
-Declare Integer deflateBound In ZLIB1.Dll As _zlibapideflatebound ;
-	Integer strm, ;
-	Integer sourcelen
+declare integer deflateBound in zlib1.dll as _zlibapideflatebound ;
+	integer strm, ;
+	integer sourcelen
 
-Return _zlibapideflatebound (strm, m.sourcelen)
+return _zlibapideflatebound (m.strm, m.sourcelen)

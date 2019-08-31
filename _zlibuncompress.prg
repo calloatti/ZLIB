@@ -2,46 +2,46 @@
 
 #Include _zlib1.h
 
-Lparameters csource, ndestlen
+lparameters csource, ndestlen
 
-Local cdest, ndestlen, nresult, nsourcelen
+local cdest, ndestlen, nresult, nsourcelen
 
-m.nsourcelen = Len(m.csource)
+m.nsourcelen = len(m.csource)
 
-If m.nsourcelen = 0 Then
+if m.nsourcelen = 0 then
 
 	m.cdest = ''
 
-Else
+else
 
-	If Vartype(m.ndestlen) # 'N' Then
+	if vartype(m.ndestlen) # 'N' then
 
 		m.ndestlen = m.nsourcelen * 2
 
-	Endif
+	endif
 
-	m.cdest = Space(m.ndestlen)
+	m.cdest = space(m.ndestlen)
 
 	m.nresult = _zlibapiuncompress(@m.cdest, @m.ndestlen, m.csource, m.nsourcelen)
 
-	Do While m.nresult = Z_BUF_ERROR
+	do while m.nresult = Z_BUF_ERROR
 
 		m.ndestlen = m.ndestlen * 2
 
-		m.cdest = Space(m.ndestlen)
+		m.cdest = space(m.ndestlen)
 
 		m.nresult = _zlibapiuncompress(@m.cdest, @m.ndestlen, m.csource, m.nsourcelen)
 
-	Enddo
+	enddo
 
-	If m.nresult # Z_OK Then
+	if m.nresult # Z_OK then
 
-		Error '_zlibapiuncompress: ' + Transform(m.nresult)
+		error '_zlibapiuncompress: ' + transform(m.nresult)
 
-	Endif
+	endif
 
-	m.cdest = Left(m.cdest, m.ndestlen)
+	m.cdest = left(m.cdest, m.ndestlen)
 
-Endif
+endif
 
-Return m.cdest
+return m.cdest

@@ -1,7 +1,7 @@
-Lparameters zfile, zmode
+lparameters zfile, zmode
 
-Declare Long gzopen In zlib1.Dll As _zlibapigzopen  ;
-	String  zfile, ;
-	String  zmode
+declare long gzopen in zlib1.dll as _zlibapigzopen  ;
+	string  zfile, ;
+	string  zmode
 
-Return _zlibapigzopen(m.zfile, m.zmode)
+return _zlibapigzopen(m.zfile, m.zmode)

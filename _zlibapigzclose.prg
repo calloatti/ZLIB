@@ -1,6 +1,6 @@
-Lparameters gzfile
+lparameters gzfile
 
-Declare Long gzclose In zlib1.Dll As _zlibapigzclose   ;
-	Integer gzfile
+declare long gzclose in zlib1.dll as _zlibapigzclose   ;
+	integer gzfile
 
-Return _zlibapigzclose(m.gzfile)
+return _zlibapigzclose(m.gzfile)

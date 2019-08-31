@@ -1,9 +1,9 @@
 *!* _zlibapiinflate
 
-Lparameters strm, Flush
+lparameters strm, flush
 
-Declare Integer inflate In ZLIB1.Dll As _zlibapiinflate ;
-	Integer strm, ;
-	Integer Flush
+declare integer inflate in zlib1.dll as _zlibapiinflate ;
+	integer strm, ;
+	integer flush
 
-Return _zlibapiinflate(m.strm, m.flush)
+return _zlibapiinflate(m.strm, m.flush)

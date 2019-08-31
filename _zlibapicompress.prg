@@ -6,12 +6,12 @@
 *!*	which must be at least the value returned by compressBound(sourceLen).  
 *!*	Upon exit, destLen is the actual size of the compressed buffer.
 
-LPARAMETERS dest, destlen, source, sourcelen
+lparameters dest, destlen, source, sourcelen
 
-Declare Integer compress In ZLIB1.Dll As _zlibapicompress ;
-	String  @dest, ;
-	Integer @destlen, ;
-	String  source, ;
+declare integer compress in zlib1.dll as _zlibapicompress ;
+	string  @dest, ;
+	integer @destlen, ;
+	string  source, ;
 	integer sourcelen
 
-Return _zlibapicompress(@m.dest, @m.destlen, m.source, m.sourcelen)
+return _zlibapicompress(@m.dest, @m.destlen, m.source, m.sourcelen)

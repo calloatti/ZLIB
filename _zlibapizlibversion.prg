@@ -6,6 +6,6 @@
 *!*	 An Adler-32 checksum is almost as reliable as a CRC32 but can be computed   
 *!*	 much faster.
 
-Declare string zlibVersion In ZLIB1.Dll As _zlibapizlibversion
+declare string zlibVersion in zlib1.dll as _zlibapizlibversion
 
-Return _zlibapizlibversion()
+return _zlibapizlibversion()

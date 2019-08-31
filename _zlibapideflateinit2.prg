@@ -54,16 +54,16 @@
 
 *!* int DeflateInit2_(TZStreamRec strm, int level, int method, int windowBits, int memLevel, int strategy, const char * version, int recsize);
 
-Lparameters strm, nlevel, nmethod, windowsbits, memlevel, strategy, zlibversion, stream_size
+lparameters strm, nlevel, nmethod, windowsbits, memlevel, strategy, zlibversion, stream_size
 
-Declare Integer deflateInit2_ In ZLIB1.Dll As _zlibapideflateinit2 ;
-	Integer strm, ;
-	Integer nlevel, ;
-	Integer nmethod, ;
-	Integer windowsbits, ;
-	Integer memlevel, ;
-	Integer strategy, ;
-	String  zlibversion, ;
-	Integer stream_size
+declare integer deflateInit2_ in zlib1.dll as _zlibapideflateinit2 ;
+	integer strm, ;
+	integer nlevel, ;
+	integer nmethod, ;
+	integer windowsbits, ;
+	integer memlevel, ;
+	integer strategy, ;
+	string  zlibversion, ;
+	integer stream_size
 
-Return _zlibapideflateinit2(m.strm, m.nlevel, m.nmethod, m.windowsbits, m.memlevel, strategy, m.zlibversion, m.stream_size)
+return _zlibapideflateinit2(m.strm, m.nlevel, m.nmethod, m.windowsbits, m.memlevel, m.strategy, m.zlibversion, m.stream_size)

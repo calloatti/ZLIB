@@ -1,8 +1,8 @@
-Lparameters gzfile, cbuf, nlen
+lparameters gzfile, cbuf, nlen
 
-Declare Long gzread In zlib1.Dll As _zlibapigzread ;
-	Integer gzfile, ;
-	String  @cbuf, ;
-	Integer nlen
+declare long gzread in zlib1.dll as _zlibapigzread ;
+	integer gzfile, ;
+	string  @cbuf, ;
+	integer nlen
 
-Return _zlibapigzread(m.gzfile, @m.cbuf, m.nlen)
+return _zlibapigzread(m.gzfile, @m.cbuf, m.nlen)

@@ -14,12 +14,12 @@
 *!*	the case where there is not enough room, uncompress() will fill the output
 *!*	buffer with the uncompressed data up to that point.
 
-Lparameters Dest, destlen, Source, sourcelen
+lparameters dest, destlen, source, sourcelen
 
-Declare Integer uncompress In ZLIB1.Dll As _zlibapiuncompress ;
-	String  @Dest, ;
-	Integer @destlen, ;
-	String  Source, ;
-	Integer sourcelen
+declare integer uncompress in zlib1.dll as _zlibapiuncompress ;
+	string  @dest, ;
+	integer @destlen, ;
+	string  source, ;
+	integer sourcelen
 
-Return _zlibapiuncompress(@m.dest, @m.destlen, m.source, m.sourcelen)
+return _zlibapiuncompress(@m.dest, @m.destlen, m.source, m.sourcelen)

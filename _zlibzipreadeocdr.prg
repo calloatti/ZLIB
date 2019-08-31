@@ -63,45 +63,45 @@
 *!*	.ZIP file comment length                                                       2 bytes
 *!*	.ZIP file comment                                                              (variable size)
 
-Lparameters pbytes
+lparameters pbytes
 
-Local oecdr As 'empty'
-Local npos
+local oecdr as 'empty'
+local npos
 
-m.oecdr = Createobject('empty')
+m.oecdr = createobject('empty')
 
-AddProperty(m.oecdr, 'zzfound', 0)
-AddProperty(m.oecdr, 'zzdisknumber', 0)
-AddProperty(m.oecdr, 'zzdisknumbercd', 0)
-AddProperty(m.oecdr, 'zzcountdisk', 0)
-AddProperty(m.oecdr, 'zzcount', 0)
-AddProperty(m.oecdr, 'zzsize', 0)
-AddProperty(m.oecdr, 'zzoffset', 0)
-AddProperty(m.oecdr, 'zzcommentlen', 0)
-AddProperty(m.oecdr, 'zzcomment', '')
+addproperty(m.oecdr, 'zzfound', 0)
+addproperty(m.oecdr, 'zzdisknumber', 0)
+addproperty(m.oecdr, 'zzdisknumbercd', 0)
+addproperty(m.oecdr, 'zzcountdisk', 0)
+addproperty(m.oecdr, 'zzcount', 0)
+addproperty(m.oecdr, 'zzsize', 0)
+addproperty(m.oecdr, 'zzoffset', 0)
+addproperty(m.oecdr, 'zzcommentlen', 0)
+addproperty(m.oecdr, 'zzcomment', '')
 
-If Vartype(m.pbytes) $ 'CQ'
+if vartype(m.pbytes) $ 'CQ'
 
-	m.npos = Rat(0h504b0506, m.pbytes, 1)
+	m.npos = rat(0h504b0506, m.pbytes, 1)
 
-	If m.npos > 0 Then
+	if m.npos > 0 then
 
 		m.oecdr.zzfound = 1
 
-		m.oecdr.zzdisknumber   = _zlibctoubin(Substr(m.pbytes, m.npos + 4, 2))
-		m.oecdr.zzdisknumbercd = _zlibctoubin(Substr(m.pbytes, m.npos + 6, 2))
-		m.oecdr.zzcountdisk	   = _zlibctoubin(Substr(m.pbytes, m.npos + 8, 2))
-		m.oecdr.zzcount		   = _zlibctoubin(Substr(m.pbytes, m.npos + 10, 2))
-		m.oecdr.zzsize		   = _zlibctoubin(Substr(m.pbytes, m.npos + 12, 4))
-		m.oecdr.zzoffset	   = _zlibctoubin(Substr(m.pbytes, m.npos + 16, 4))
-		m.oecdr.zzcommentlen   = _zlibctoubin(Substr(m.pbytes, m.npos + 20, 2))
+		m.oecdr.zzdisknumber   = _zuctobin(substr(m.pbytes, m.npos + 4, 2))
+		m.oecdr.zzdisknumbercd = _zuctobin(substr(m.pbytes, m.npos + 6, 2))
+		m.oecdr.zzcountdisk	   = _zuctobin(substr(m.pbytes, m.npos + 8, 2))
+		m.oecdr.zzcount		   = _zuctobin(substr(m.pbytes, m.npos + 10, 2))
+		m.oecdr.zzsize		   = _zuctobin(substr(m.pbytes, m.npos + 12, 4))
+		m.oecdr.zzoffset	   = _zuctobin(substr(m.pbytes, m.npos + 16, 4))
+		m.oecdr.zzcommentlen   = _zuctobin(substr(m.pbytes, m.npos + 20, 2))
 
-		If m.oecdr.zzcommentlen > 0
-			m.oecdr.zzcomment	   = Substr(m.pbytes, m.npos + 22, m.oecdr.zzcommentlen)
-		Endif
+		if m.oecdr.zzcommentlen > 0
+			m.oecdr.zzcomment	   = substr(m.pbytes, m.npos + 22, m.oecdr.zzcommentlen)
+		endif
 
-	Endif
+	endif
 
-Endif
+endif
 
-Return m.oecdr
+return m.oecdr

@@ -10,9 +10,9 @@
 *!*	may be set but then points to a static string (which must not be
 *!*	deallocated).
 
-Lparameters strm
+lparameters strm
 
-Declare Integer deflateEnd In ZLIB1.Dll As _zlibapideflateend ;
-	Integer strm
+declare integer deflateEnd in zlib1.dll as _zlibapideflateend ;
+	integer strm
 
-Return _zlibapideflateend(m.strm)
+return _zlibapideflateend(m.strm)

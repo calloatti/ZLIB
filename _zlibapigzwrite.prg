@@ -1,10 +1,10 @@
 *!* _zlibapigzwrite
 
-Lparameters gzfile, cbuf, nlen
+lparameters gzfile, cbuf, nlen
 
-Declare Long gzwrite In zlib1.Dll As _zlibapigzwrite   ;
-	Integer gzfile, ;
-	String  cbuf, ;
-	Integer nlen
+declare long gzwrite in zlib1.dll as _zlibapigzwrite   ;
+	integer gzfile, ;
+	string  cbuf, ;
+	integer nlen
 
-Return _zlibapigzwrite(m.gzfile, m.cbuf, m.nlen)
+return _zlibapigzwrite(m.gzfile, m.cbuf, m.nlen)

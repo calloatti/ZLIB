@@ -1,15 +1,15 @@
 *!* _zlibcrc32
 
-Lparameters pbytes
+lparameters pbytes
 
-Local crc32
+local crc32
 
-m.crc32 = _zlibapicrc32(0, m.pbytes, Len(m.pbytes))
+m.crc32 = _zlibapicrc32(0, m.pbytes, len(m.pbytes))
 
-If m.crc32 < 0 Then
+if m.crc32 < 0 then
 
-	m.crc32 = m.crc32 + 4294967296
+	m.crc32 = m.crc32 + 2^32
 
-Endif
+endif
 
-Return m.crc32
+return m.crc32

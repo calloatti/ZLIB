@@ -1,9 +1,9 @@
 *!* _zlibapideflate
 
-Lparameters strm, Flush
+lparameters strm, flush
 
-Declare Integer deflate In ZLIB1.Dll As _zlibapideflate ;
-	Integer strm, ;
-	Integer Flush
+declare integer deflate in zlib1.dll as _zlibapideflate ;
+	integer strm, ;
+	integer flush
 
-Return _zlibapideflate(m.strm, m.flush)
+return _zlibapideflate(m.strm, m.flush)

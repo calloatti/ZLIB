@@ -1,4 +1,4 @@
-*!* _apiPathMatchSpecEx
+*!* _zapipathmatchspecex
 
 *!*	pszFile [in]
 
@@ -41,17 +41,17 @@
 
 *!* YES, RETURNS 0 FOR A MATCH AND 1 FOR NO MATCH
 
-#Define PMSF_NORMAL				0x00000000
-#Define PMSF_MULTIPLE			0x00000001
-#Define PMSF_DONT_STRIP_SPACES	0x00010000
-#Define S_OK					0
-#Define S_FALSE					1
+#define PMSF_NORMAL				0x00000000
+#define PMSF_MULTIPLE			0x00000001
+#define PMSF_DONT_STRIP_SPACES	0x00010000
+#define S_OK					0
+#define S_FALSE					1
 
-Lparameters pszFile, pszSpec, dwFlags
+lparameters pszFile, pszSpec, dwFlags
 
-Declare Integer PathMatchSpecEx In SHLWAPI.Dll As _apiPathMatchSpecEx ;
-	String  pszFile, ;
-	String  pszSpec, ;
-	Integer dwFlags
+declare integer PathMatchSpecEx in shlwapi.dll as _zapipathmatchspecex;
+	string  pszFile, ;
+	string  pszSpec, ;
+	integer dwFlags
 
-Return _apiPathMatchSpecEx(m.pszFile, m.pszSpec, m.dwFlags)
+return _zapipathmatchspecex(m.pszFile, m.pszSpec, m.dwFlags)

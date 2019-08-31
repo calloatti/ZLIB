@@ -1,8 +1,8 @@
 *!* _zlibapiinflateend
 
-Lparameters strm
+lparameters strm
 
-Declare Integer inflateEnd In ZLIB1.Dll As _zlibapiinflateend ;
-	Integer strm
+declare integer inflateEnd in zlib1.dll as _zlibapiinflateend ;
+	integer strm
 
-Return _zlibapiinflateend(m.strm)
+return _zlibapiinflateend(m.strm)

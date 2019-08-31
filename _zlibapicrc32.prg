@@ -6,11 +6,12 @@
 *!*	 An Adler-32 checksum is almost as reliable as a CRC32 but can be computed   
 *!*	 much faster.
 
-Lparameters crc, buf, nlen
+lparameters crc, buf, nlen
 
-Declare Integer crc32 In ZLIB1.Dll As _zlibapicrc32 ;
-	Integer crc, ;
-	String  buf, ;
-	Integer nlen
+declare integer crc32 in zlib1.dll as _zlibapicrc32 ;
+	integer crc, ;
+	string  buf, ;
+	integer nlen
 
-Return _zlibapicrc32(m.crc, m.buf, m.nlen)
+return _zlibapicrc32(m.crc, m.buf, m.nlen)
+

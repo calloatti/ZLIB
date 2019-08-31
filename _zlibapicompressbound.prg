@@ -6,7 +6,7 @@
 
 Lparameters sourcelen
 
-Declare Integer compressBound In ZLIB1.Dll As _zlibapicompressbound ;
+Declare Integer compressBound In zlib1.dll As _zlibapicompressbound ;
 	Integer sourcelen
 
 Return _zlibapicompressbound(m.sourcelen)

@@ -1,10 +1,10 @@
 *!* _zlibapigzsetparams 
 
-Lparameters gzfile, nlevel, strategy
+lparameters gzfile, nlevel, strategy
 
-Declare Long gzsetparams In zlib1.Dll As _zlibapigzsetparams ;
-	Integer gzfile, ;
-	Integer nlevel, ;
-	Integer strategy
+declare long gzsetparams in zlib1.dll as _zlibapigzsetparams ;
+	integer gzfile, ;
+	integer nlevel, ;
+	integer strategy
 
-Return _zlibapigzsetparams(m.gzfile, m.nlevel, m.strategy)
+return _zlibapigzsetparams(m.gzfile, m.nlevel, m.strategy)

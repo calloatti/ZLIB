@@ -1,0 +1,8 @@
+http://infozip.sourceforge.net/
+https://sourceforge.net/projects/libpng/files/zlib/1.2.8/
+https://www.libs4win.com/libzlib/index.html
+https://sourceforge.net/projects/infozip/files/
+https://www.willus.com/archive/zip64/
+https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT
+https://stackoverflow.com/questions/434641/how-do-i-set-permissions-attributes-on-a-file-in-a-zip-file-using-pythons-zip
+https://unix.stackexchange.com/questions/14705/the-zip-formats-external-file-attribute
